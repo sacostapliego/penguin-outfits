@@ -7,13 +7,12 @@ import base64
 import logging
 logger = logging.getLogger(__name__)
 
-HF_T2I_MODEL = os.getenv("HF_TEXT2IMG_MODEL", "runwayml/stable-diffusion-v1-5")
+HF_T2I_MODEL = os.getenv("HF_TEXT2IMG_MODEL")
 
 # Rename to a consistent exported name
 router = APIRouter(prefix="/api", tags=["tryon"])
 
 # --- Helper Functions ---
-
 async def uploadfile_to_base64(file: Optional[UploadFile]) -> Optional[str]:
     """Reads UploadFile and converts its contents to a base64 string."""
     if file is None:
@@ -28,66 +27,16 @@ async def uploadfile_to_base64(file: Optional[UploadFile]) -> Optional[str]:
         
     return base64.b64encode(file_bytes).decode('utf-8')
 
-# --- Existing /tryon Endpoint (Unchanged) ---
+# --- API Endpoints ---
 
-@router.post("/tryon")
-async def generate_tryon_image_local(
-    user_image: UploadFile = File(...),
-    shirt_image: Optional[UploadFile] = File(None),
-    pants_image: Optional[UploadFile] = File(None),
-):
-    """
-    Simple local composite:
-    - Places the shirt near the upper body.
-    - Places the pants near the lower body.
-    - Works best with PNGs that have transparent backgrounds.
-    """
-    try:
-        user_image_bytes = await user_image.read()
-        base_user_image = Image.open(io.BytesIO(user_image_bytes)).convert("RGBA")
-        composite_image = base_user_image.copy()
-
-        if shirt_image is not None:
-            shirt_bytes = await shirt_image.read()
-            shirt_rgba = Image.open(io.BytesIO(shirt_bytes)).convert("RGBA")
-            target_width = int(composite_image.width * 0.5)
-            scale_ratio = target_width / shirt_rgba.width
-            resized_shirt = shirt_rgba.resize(
-                (target_width, int(shirt_rgba.height * scale_ratio)),
-                Image.LANCZOS,
-            )
-            shirt_x = composite_image.width // 2 - resized_shirt.width // 2
-            shirt_y = int(composite_image.height * 0.25) - resized_shirt.height // 2
-            composite_image.alpha_composite(resized_shirt, (shirt_x, max(0, shirt_y)))
-
-        if pants_image is not None:
-            pants_bytes = await pants_image.read()
-            pants_rgba = Image.open(io.BytesIO(pants_bytes)).convert("RGBA")
-            target_width = int(composite_image.width * 0.45)
-            scale_ratio = target_width / pants_rgba.width
-            resized_pants = pants_rgba.resize(
-                (target_width, int(pants_rgba.height * scale_ratio)),
-                Image.LANCZOS,
-            )
-            pants_x = composite_image.width // 2 - resized_pants.width // 2
-            pants_y = int(composite_image.height * 0.65) - resized_pants.height // 2
-            composite_image.alpha_composite(resized_pants, (pants_x, max(0, pants_y)))
-
-        buffer = io.BytesIO()
-        composite_image.convert("RGB").save(buffer, format="JPEG", quality=90)
-        data_url = "data:image/jpeg;base64," + base64.b64encode(buffer.getvalue()).decode("utf-8")
-        return {"success": True, "image_data_url": data_url}
-    except Exception as exc:
-        raise HTTPException(status_code=400, detail=str(exc))
-
-
+# AI Virtual Try-On Endpoint, using Gemini and Hugging Face
 @router.post("/tryon/ai")
 async def generate_tryon_image_ai(
     user_image: Optional[UploadFile] = File(None),
     shirt_image: Optional[UploadFile] = File(None),
     pants_image: Optional[UploadFile] = File(None),
     provider: str = Form("auto"),
-    prompt: Optional[str] = Form(None), # Note: prompt is no longer used by the Gemini path
+    prompt: Optional[str] = Form(None),
 ):
     """
     Generates a virtual try-on image using AI.

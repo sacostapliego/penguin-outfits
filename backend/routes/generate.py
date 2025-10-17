@@ -2,7 +2,7 @@ from fastapi import APIRouter, UploadFile, File
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from db import SessionLocal
-from models import Upload
+from models.models import Upload
 import os
 from datetime import datetime
 from dotenv import load_dotenv

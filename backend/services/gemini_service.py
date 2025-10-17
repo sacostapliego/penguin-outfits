@@ -76,7 +76,6 @@ def generate_virtual_tryon(
         # Re-raise with a clear message for the API endpoint to catch
         raise RuntimeError(f"Gemini virtual try-on failed: {e}")
 
-# We can remove the other, now-obsolete generation functions for clarity.
 # Keeping refine_prompt might still be useful for other features.
 def refine_prompt(prompt: str) -> str:
     """
