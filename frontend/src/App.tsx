@@ -1,7 +1,5 @@
 import { useState } from "react";
-import UploadSection from "./components/UploadSection";
-import PreviewSection from "./components/PreviewSection";
-import GenerateButton from "./components/GenerateButton";
+import Inventory from "./components/Inventory";
 
 function App() {
   const [userImage, setUserImage] = useState<File | null>(null);
@@ -10,42 +8,24 @@ function App() {
   const [resultImage, setResultImage] = useState<string | null>(null);
 
   return (
-    <div className="flex flex-col items-center p-8 space-y-6">
-      <h1 className="text-3xl font-bold text-blue-600">AI Virtual Try-On</h1>
-
-      <div className="grid grid-cols-2 gap-8 w-full max-w-5xl">
-        <UploadSection
-          title="Upload Your Full Body Image"
-          onFileChange={setUserImage}
-        />
-        <PreviewSection image={userImage} />
-
-        <UploadSection title="Upload a Shirt" onFileChange={setShirtImage} />
-        <PreviewSection image={shirtImage} />
-
-        <UploadSection title="Upload Pants" onFileChange={setPantsImage} />
-        <PreviewSection image={pantsImage} />
-      </div>
-
-      <GenerateButton
-        userImage={userImage}
-        shirtImage={shirtImage}
-        pantsImage={pantsImage}
-        setResultImage={setResultImage}
-      />
-
-      {resultImage && (
-        <div className="mt-8">
-          <h2 className="text-xl font-semibold text-center mb-2">
-            Generated Look
-          </h2>
-          <img
-            src={resultImage}
-            alt="Result"
-            className="rounded-xl shadow-md max-h-[500px]"
+    <div className="h-screen w-screen bg-blue-500 flex justify-center items-center font-sans">
+      <div
+        className="bg-[url('/inventory-bg.png')] bg-no-repeat bg-center bg-contain p-12"
+        style={{ width: "1024px", height: "660px" }}
+      >
+        <div className="bg-gray-700 h-full w-full rounded-lg p-4">
+          <Inventory
+            userImage={userImage}
+            setUserImage={setUserImage}
+            shirtImage={shirtImage}
+            setShirtImage={setShirtImage}
+            pantsImage={pantsImage}
+            setPantsImage={setPantsImage}
+            resultImage={resultImage}
+            setResultImage={setResultImage}
           />
         </div>
-      )}
+      </div>
     </div>
   );
 }
