@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-body {
-  @apply bg-gray-100 text-gray-900;
+@theme {
+  --color-background: #00529b;
+  --color-player: #01529b;
+  --color-playercard: #0180cc;
+  --color-playercard-border: #02c5f9;
+
 }

@@ -4,15 +4,19 @@ interface Props {
 
 export default function PreviewSection({ image }: Props) {
   return (
-    <div className="flex flex-col items-center justify-center bg-white rounded-lg shadow-sm border p-4 h-64">
+    <div className="
+      flex items-center 
+      justify-center 
+      h-full w-full
+    ">
       {image ? (
         <img
           src={URL.createObjectURL(image)}
           alt="Preview"
-          className=" max-h-[200px] rounded-lg max-w-[200px] "
+          className="max-h-full max-w-full object-contain rounded-lg"
         />
       ) : (
-        <p className="text-gray-400">No image uploaded</p>
+        <p className="text-gray-200">No image uploaded</p>
       )}
     </div>
   );

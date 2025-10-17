@@ -9,13 +9,13 @@ function App() {
 
   return (
     <div className="h-screen w-screen bg-blue-500 flex justify-center items-center font-sans">
-      {/* Larger background container */}
+      {/* Background container with padding to create the inset effect */}
       <div
         className="bg-[url('/igloo.png')] bg-no-repeat bg-center bg-contain p-12 flex justify-center items-center rounded-lg"
-        style={{ width: "100%", height: "85%" }} // Scale the background higher
+        style={{ width: "90%", height: "85%" }}
       >
-        {/* Smaller inventory container */}
-        <div className="bg-gray-100 rounded-lg p-4 shadow-lg w-1/2 h-3/4 flex items-center justify-center">
+        {/* Inventory container that fills the padded area and centers its content */}
+        <div className="w-full h-full flex items-center justify-center">
           <Inventory
             userImage={userImage}
             setUserImage={setUserImage}
