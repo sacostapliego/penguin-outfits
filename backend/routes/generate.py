@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, Form
+from fastapi import APIRouter, UploadFile, File
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from db import SessionLocal
@@ -6,12 +6,12 @@ from models import Upload
 import os
 from datetime import datetime
 from dotenv import load_dotenv
+from typing import Optional
 
 load_dotenv()
 
-router = APIRouter()
+router = APIRouter(prefix="/api", tags=["generate"])
 UPLOAD_DIR = os.getenv("UPLOAD_DIR", "uploads")
-
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 def save_file(file: UploadFile, subfolder: str):
@@ -24,9 +24,9 @@ def save_file(file: UploadFile, subfolder: str):
 
 @router.post("/generate")
 async def generate_image(
-    user_image: UploadFile,
-    shirt_image: UploadFile = None,
-    pants_image: UploadFile = None,
+    user_image: UploadFile = File(...),
+    shirt_image: Optional[UploadFile] = File(None),
+    pants_image: Optional[UploadFile] = File(None),
 ):
     db: Session = SessionLocal()
 

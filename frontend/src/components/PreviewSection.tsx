@@ -9,7 +9,7 @@ export default function PreviewSection({ image }: Props) {
         <img
           src={URL.createObjectURL(image)}
           alt="Preview"
-          className="max-h-56 rounded-lg"
+          className=" max-h-[200px] rounded-lg max-w-[200px] "
         />
       ) : (
         <p className="text-gray-400">No image uploaded</p>
