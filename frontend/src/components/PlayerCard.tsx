@@ -7,6 +7,7 @@ interface PlayerCardProps {
   shirtImage: File | null;
   pantsImage: File | null;
   setResultImage: (url: string | null) => void;
+  onUploadClick: () => void;
 }
 
 const PlayerCard = ({
@@ -15,6 +16,7 @@ const PlayerCard = ({
   shirtImage,
   pantsImage,
   setResultImage,
+  onUploadClick,
 }: PlayerCardProps) => {
   return (
     <div className="
@@ -61,6 +63,7 @@ const PlayerCard = ({
         shirtImage={shirtImage}
         pantsImage={pantsImage}
         setResultImage={setResultImage}
+        onUploadClick={onUploadClick}
       />
     </div>
   );

@@ -8,6 +8,7 @@ interface Props {
   shirtImage: File | null;
   pantsImage: File | null;
   setResultImage: (url: string | null) => void;
+  onUploadClick: () => void;
 }
 
 export default function UploadSectionPlayer({
@@ -16,12 +17,9 @@ export default function UploadSectionPlayer({
   shirtImage,
   pantsImage,
   setResultImage,
+  onUploadClick,
 }: Props) {
   const [loading, setLoading] = useState(false);
-
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onFileChange(event.target.files?.[0] || null);
-  };
 
   async function dataUrlToFile(dataUrl: string, fileName: string): Promise<File> {
     const res = await fetch(dataUrl);
@@ -84,7 +82,7 @@ export default function UploadSectionPlayer({
         <div className="w-14 flex justify-center">
           <div
             className={`text-white rounded-full p-2 transition ${
-              loading ? "bg-yellow-400" : "bg-yellow-500 hover:bg-yellow-600"
+              loading ? "bg-yellow-400" : "bg-yellow-500 hover:bg-yellow-400"
             }`}
           >
             <SiGooglegemini color="black" size={24} />
@@ -97,15 +95,8 @@ export default function UploadSectionPlayer({
 
       {/* File Upload Section */}
       <div className="flex flex-row items-center">
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileUpload}
-          className="hidden"
-          id="file-upload"
-        />
         <label
-          htmlFor="file-upload"
+          onClick={onUploadClick}
           className="cursor-pointer flex items-center"
         >
           <div className="w-14 flex justify-center">

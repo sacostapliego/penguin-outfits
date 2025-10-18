@@ -1,4 +1,3 @@
-import UploadSection from "./UploadSection";
 import PreviewSection from "./PreviewSection";
 
 interface ClothingGridProps {
@@ -10,9 +9,7 @@ interface ClothingGridProps {
 
 const ClothingGrid = ({
   shirtImage,
-  setShirtImage,
   pantsImage,
-  setPantsImage,
 }: ClothingGridProps) => {
   return (
     // Match PlayerCard's height (slightly shorter if desired)
@@ -23,17 +20,11 @@ const ClothingGrid = ({
           <div className="w-full h-full flex items-center justify-center overflow-hidden">
             <PreviewSection image={shirtImage} />
           </div>
-          <div className="p-1">
-            <UploadSection title="Upload Shirt" onFileChange={setShirtImage} />
-          </div>
         </div>
 
         <div className="flex flex-col items-stretch justify-between bg-white border-2 border-gray-300 rounded-lg overflow-hidden min-w-0 aspect-square">
           <div className="w-full h-full flex items-center justify-center overflow-hidden">
             <PreviewSection image={pantsImage} />
-          </div>
-          <div className="p-1">
-            <UploadSection title="Upload Pants" onFileChange={setPantsImage} />
           </div>
         </div>
 
