@@ -1,23 +1,12 @@
-interface Props {
-  image: File | null;
-}
-
-export default function PreviewSection({ image }: Props) {
+export default function PreviewSection({ image }: { image: File | null }) {
+  if (!image) return null;
+  const url = URL.createObjectURL(image);
   return (
-    <div className="
-      flex items-center 
-      justify-center 
-      h-full w-full
-    ">
-      {image ? (
-        <img
-          src={URL.createObjectURL(image)}
-          alt="Preview"
-          className="max-h-full max-w-full object-contain rounded-lg"
-        />
-      ) : (
-        <p className="text-gray-200">No image uploaded</p>
-      )}
-    </div>
+    <img
+      src={url}
+      alt="preview"
+      className="w-full h-full object-contain max-w-full max-h-full"
+      onLoad={() => URL.revokeObjectURL(url)}
+    />
   );
 }

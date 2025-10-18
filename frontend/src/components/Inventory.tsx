@@ -23,8 +23,8 @@ const Inventory = ({
 }: InventoryProps) => {
   return (
     <div className="flex flex-col h-full">
-      <div className="grid grid-cols-3 gap-4 flex-grow">
-        <div className="col-span-1">
+      <div className="grid grid-cols-[375px_1fr] flex-grow items-center">
+        <div className="col-span-1 ml-4 flex items-center justify-center">
           <PlayerCard
             userImage={userImage}
             setUserImage={setUserImage}
@@ -33,7 +33,8 @@ const Inventory = ({
             setResultImage={setResultImage}
           />
         </div>
-        <div className="col-span-2">
+
+        <div className="col-span-1 flex items-center justify-center">
           <ClothingGrid
             shirtImage={shirtImage}
             setShirtImage={setShirtImage}

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TbWorldUpload } from "react-icons/tb";
-import { MdAttachMoney } from "react-icons/md";
+import { SiGooglegemini } from "react-icons/si";
 
 interface Props {
   onFileChange: (file: File | null) => void;
@@ -84,13 +84,13 @@ export default function UploadSectionPlayer({
         <div className="w-14 flex justify-center">
           <div
             className={`text-white rounded-full p-2 transition ${
-              loading ? "bg-blue-400" : "bg-blue-500 hover:bg-blue-600"
+              loading ? "bg-yellow-400" : "bg-yellow-500 hover:bg-yellow-600"
             }`}
           >
-            <MdAttachMoney color="yellow" size={24} />
+            <SiGooglegemini color="black" size={24} />
           </div>
         </div>
-        <span className="ml-1 text-white">
+        <span className="ml-1 font-medium text-black">
           {loading ? "Generating..." : "Generate Look"}
         </span>
       </button>
@@ -113,7 +113,7 @@ export default function UploadSectionPlayer({
               <TbWorldUpload size={24} />
             </div>
           </div>
-          <span className="ml-1 text-white">Upload Image</span>
+          <span className="ml-1 font-medium text-black">Upload Image</span>
         </label>
       </div>
     </div>
