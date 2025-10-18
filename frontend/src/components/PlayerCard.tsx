@@ -22,7 +22,7 @@ const PlayerCard = ({
     <div className="
       relative
       bg-playercard
-      h-[550px] w-[375px]
+      h-[600px] w-[425px]
       rounded-2xl 
       p-4 pt-8 flex 
       flex-col 

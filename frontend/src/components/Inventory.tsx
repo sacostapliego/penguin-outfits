@@ -38,7 +38,7 @@ const Inventory = ({
         onClose={() => setOverlayOpen(false)}
         setUserImage={setUserImage}
       />
-      <div className="grid grid-cols-[375px_1fr] flex-grow items-center">
+      <div className="grid grid-cols-[425px_1fr] flex-grow items-center">
         <div className="col-span-1 ml-4 flex items-center justify-center">
           <PlayerCard
             userImage={userImage}

@@ -14,10 +14,10 @@ function App() {
       {/* Background container with padding to create the inset effect */}
       <div
         className="bg-[url('/igloo.png')] bg-no-repeat bg-center bg-contain p-12 flex justify-center items-center rounded-lg"
-        style={{ width: "90%", height: "85%" }}
+        style={{ width: "100%", height: "90%" }}
       >
         {/* Inventory container that fills the padded area and centers its content */}
-        <div className="w-full h-[85%] flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center">
           <Inventory
             userImage={userImage}
             setUserImage={setUserImage}

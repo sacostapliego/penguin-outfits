@@ -40,36 +40,53 @@ const ClothingGrid = ({
 
   const handleSelect = async (item: ClothingItem) => {
     try {
-        const imageUrl = `${api.defaults.baseURL}/${item.image_path}`;
-        const response = await fetch(imageUrl);
-        const blob = await response.blob();
-        const filename = item.image_path.split(/[\\/]/).pop()!;
-        const file = new File([blob], filename, { type: blob.type });
+      // If the clicked shirt is already selected, deselect it.
+      if (item.item_type === 'shirt' && selectedShirtId === item.id) {
+        setShirtImage(null);
+        setSelectedShirtId(null);
+        return; // Stop further execution
+      }
 
-        if (item.item_type === 'shirt') {
-            setShirtImage(file);
-            setSelectedShirtId(item.id);
-        } else if (item.item_type === 'pants') {
-            setPantsImage(file);
-            setSelectedPantsId(item.id);
-        }
+      // If the clicked pants are already selected, deselect them.
+      if (item.item_type === 'pants' && selectedPantsId === item.id) {
+        setPantsImage(null);
+        setSelectedPantsId(null);
+        return; // Stop further execution
+      }
+
+      // Otherwise, proceed with selecting the new item.
+      const imageUrl = `${api.defaults.baseURL}/${item.image_path}`;
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const filename = item.image_path.split(/[\\/]/).pop()!;
+      const file = new File([blob], filename, { type: blob.type });
+
+      if (item.item_type === 'shirt') {
+        setShirtImage(file);
+        setSelectedShirtId(item.id);
+      } else if (item.item_type === 'pants') {
+        setPantsImage(file);
+        setSelectedPantsId(item.id);
+      }
     } catch (error) {
-        console.error("Error fetching or creating file from item:", error);
+      console.error("Error fetching or creating file from item:", error);
     }
   };
 
   const placeholderCount = Math.max(0, minCells - items.length);
 
   return (
-    <div className="bg-white border-black border-t-4 border-r-4 border-b-4 rounded-2xl p-4 h-[530px] pr-10 w-full max-w-full flex items-center">
+    <div className="bg-white border-black border-t-4 border-r-4 border-b-4 rounded-2xl p-4 h-[580px] pr-10 w-full max-w-full flex items-center">
       <div className="grid grid-cols-3 grid-rows-4 gap-3 w-full h-full overflow-y-auto">
         {items.map((item) => (
           <div
             key={item.id}
             onClick={() => handleSelect(item)}
-            className={`flex flex-col items-stretch justify-between bg-white border-2 border-gray-300 rounded-lg overflow-hidden min-w-0 aspect-square cursor-pointer
-              ${item.item_type === 'shirt' && selectedShirtId === item.id ? 'border-gray-300 border-4' : ''}
-              ${item.item_type === 'pants' && selectedPantsId === item.id ? 'border-gray-300 border-4' : ''}
+            className={`flex flex-col items-stretch justify-between bg-white border-2 rounded-lg overflow-hidden min-w-0 aspect-square cursor-pointer
+              ${(item.item_type === 'shirt' && selectedShirtId === item.id) || (item.item_type === 'pants' && selectedPantsId === item.id) 
+                ? 'border-gray-300 border-4' 
+                : 'border-gray-300'
+              }
             `}
           >
             <img
