@@ -57,3 +57,20 @@ def get_all_clothing_items(db: Session = Depends(get_db)):
         }
         for item in items
     ]
+    
+@router.get("/history", response_model=List[dict])
+def get_generation_history(db: Session = Depends(get_db)):
+    """Returns a list of previously generated full-shot outfits."""
+    # Import the Upload model locally to avoid circular dependency issues if you split files later
+    from models.models import Upload
+    
+    history = db.query(Upload).filter(Upload.generated_image_path.isnot(None)).order_by(Upload.created_at.desc()).all()
+    
+    return [
+        {
+            "id": upload.id,
+            "image_path": upload.generated_image_path,
+            "created_at": upload.created_at.isoformat()
+        }
+        for upload in history
+    ]

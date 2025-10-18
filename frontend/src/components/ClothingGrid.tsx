@@ -76,33 +76,32 @@ const ClothingGrid = ({
   const placeholderCount = Math.max(0, minCells - items.length);
 
   return (
-    <div className="bg-white border-black border-t-4 border-r-4 border-b-4 rounded-2xl p-4 h-[580px] pr-10 w-full max-w-full flex items-center">
-      <div className="grid grid-cols-3 grid-rows-4 gap-3 w-full h-full overflow-y-auto">
-        {items.map((item) => (
-          <div
-            key={item.id}
-            onClick={() => handleSelect(item)}
-            className={`flex flex-col items-stretch justify-between bg-white border-2 rounded-lg overflow-hidden min-w-0 aspect-square cursor-pointer
-              ${(item.item_type === 'shirt' && selectedShirtId === item.id) || (item.item_type === 'pants' && selectedPantsId === item.id) 
-                ? 'border-gray-300 border-4' 
-                : 'border-gray-300'
-              }
-            `}
-          >
-            <img
-              src={`${api.defaults.baseURL}/${item.image_path}`}
-              alt={item.item_type}
-              className="w-full h-full object-cover"
-            />
-          </div>
-        ))}
-        {Array.from({ length: placeholderCount }).map((_, index) => (
-          <div
-            key={`placeholder-${index}`}
-            className="bg-gray-100 border-2 border-gray-300 rounded-lg aspect-square"
+    // The outer container has been removed. This is now just the grid itself.
+    <div className="grid grid-cols-3 grid-rows-4 gap-3 w-full h-full overflow-y-auto">
+      {items.map((item) => (
+        <div
+          key={item.id}
+          onClick={() => handleSelect(item)}
+          className={`flex flex-col items-stretch justify-between bg-white border-2 rounded-lg overflow-hidden min-w-0 aspect-square cursor-pointer
+            ${(item.item_type === 'shirt' && selectedShirtId === item.id) || (item.item_type === 'pants' && selectedPantsId === item.id) 
+              ? 'border-blue-500 border-4' // Use a visible color for selection
+              : 'border-gray-300'
+            }
+          `}
+        >
+          <img
+            src={`${api.defaults.baseURL}/${item.image_path}`}
+            alt={item.item_type}
+            className="w-full h-full object-cover"
           />
-        ))}
-      </div>
+        </div>
+      ))}
+      {Array.from({ length: placeholderCount }).map((_, index) => (
+        <div
+          key={`placeholder-${index}`}
+          className="bg-gray-100 border-2 border-gray-300 rounded-lg aspect-square"
+        />
+      ))}
     </div>
   );
 };
