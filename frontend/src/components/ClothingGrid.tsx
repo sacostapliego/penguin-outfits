@@ -84,7 +84,7 @@ const ClothingGrid = ({
           onClick={() => handleSelect(item)}
           className={`flex flex-col items-stretch justify-between bg-white border-2 rounded-lg overflow-hidden min-w-0 aspect-square cursor-pointer
             ${(item.item_type === 'shirt' && selectedShirtId === item.id) || (item.item_type === 'pants' && selectedPantsId === item.id) 
-              ? 'border-blue-500 border-4' // Use a visible color for selection
+              ? 'border-gray-300 border-4' // Use a visible color for selection
               : 'border-gray-300'
             }
           `}

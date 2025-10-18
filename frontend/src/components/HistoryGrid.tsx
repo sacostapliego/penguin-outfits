@@ -47,7 +47,7 @@ const HistoryGrid = ({ setUserImage }: HistoryGridProps) => {
         <div
           key={item.id}
           onClick={() => handleSelectHistoryItem(item)}
-          className="bg-white border-2 border-gray-300 rounded-lg overflow-hidden aspect-square cursor-pointer hover:border-blue-500 hover:border-4"
+          className="bg-white border-2 border-gray-300 rounded-lg overflow-hidden aspect-square cursor-pointer hover:border-gray-300 hover:border-4"
         >
           <img
             src={`${api.defaults.baseURL}/${item.image_path}`}
