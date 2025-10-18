@@ -15,7 +15,7 @@ function App() {
         style={{ width: "90%", height: "85%" }}
       >
         {/* Inventory container that fills the padded area and centers its content */}
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-[85%] flex items-center justify-center">
           <Inventory
             userImage={userImage}
             setUserImage={setUserImage}

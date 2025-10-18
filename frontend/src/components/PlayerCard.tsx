@@ -1,18 +1,26 @@
 import PreviewSection from "./PreviewSection";
 import UploadSectionPlayer from "./UploadSectionPlayer";
-import { IoClose } from "react-icons/io5";
 
 interface PlayerCardProps {
   userImage: File | null;
   setUserImage: (file: File | null) => void;
+  shirtImage: File | null;
+  pantsImage: File | null;
+  setResultImage: (url: string | null) => void;
 }
 
-const PlayerCard = ({ userImage, setUserImage }: PlayerCardProps) => {
+const PlayerCard = ({
+  userImage,
+  setUserImage,
+  shirtImage,
+  pantsImage,
+  setResultImage,
+}: PlayerCardProps) => {
   return (
     <div className="
       relative
       bg-playercard
-      h-full w-full
+      h-[550px] w-[375px]
       rounded-2xl 
       p-4 pt-8 flex 
       flex-col 
@@ -24,32 +32,35 @@ const PlayerCard = ({ userImage, setUserImage }: PlayerCardProps) => {
       <img 
         src="/membership.png" 
         alt="Member Badge" 
-        className="absolute top-[-25px] left-[-15px] w-24 z-10"
+        className="absolute top-[10px] left-[10px] w-24"
       />
 
       {/* Top Bar: Close Button */}
-      <div className="w-full flex justify-end items-start mb-2">
-        <div className="bg-white rounded-full p-1 cursor-pointer">
-          <IoClose color="blue" size={20}/>
+      <div className="w-full flex justify-end items-start mb-2 h-[5%]">
+        <div className="p-1 cursor-pointer">
         </div>
       </div>
 
       {/* Image Preview Section with fixed height */}
       <div className="
-       w-full 
-        h-96 
-        bg-player
-        rounded-2xl
-        mb-2
-        flex
+      w-full 
+      h-[75%] 
+      bg-player
+      rounded-2xl
+      mb-2
+      flex
+      overflow-hidden
       ">
         <PreviewSection image={userImage} />
       </div>
 
       {/* Upload and Info Section */}
       <UploadSectionPlayer
-        title="Upload Full Body Image"
         onFileChange={setUserImage}
+        userImage={userImage}
+        shirtImage={shirtImage}
+        pantsImage={pantsImage}
+        setResultImage={setResultImage}
       />
     </div>
   );
