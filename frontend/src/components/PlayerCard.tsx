@@ -4,19 +4,19 @@ import UploadSectionPlayer from "./UploadSectionPlayer";
 interface PlayerCardProps {
   userImage: File | null;
   setUserImage: (file: File | null) => void;
-  shirtImage: File | null;
-  pantsImage: File | null;
   setResultImage: (url: string | null) => void;
   onUploadClick: () => void;
+  selectedShirtId: number | null;
+  selectedPantsId: number | null;
 }
 
 const PlayerCard = ({
   userImage,
   setUserImage,
-  shirtImage,
-  pantsImage,
   setResultImage,
   onUploadClick,
+  selectedShirtId,
+  selectedPantsId,
 }: PlayerCardProps) => {
   return (
     <div className="
@@ -60,10 +60,10 @@ const PlayerCard = ({
       <UploadSectionPlayer
         onFileChange={setUserImage}
         userImage={userImage}
-        shirtImage={shirtImage}
-        pantsImage={pantsImage}
         setResultImage={setResultImage}
         onUploadClick={onUploadClick}
+        selectedShirtId={selectedShirtId}
+        selectedPantsId={selectedPantsId}
       />
     </div>
   );

@@ -12,16 +12,22 @@ interface InventoryProps {
   setPantsImage: (file: File | null) => void;
   resultImage: string | null;
   setResultImage: (image: string | null) => void;
+  selectedShirtId: number | null;
+  setSelectedShirtId: (id: number | null) => void;
+  selectedPantsId: number | null;
+  setSelectedPantsId: (id: number | null) => void;
 }
 
 const Inventory = ({
   userImage,
   setUserImage,
-  shirtImage,
   setShirtImage,
-  pantsImage,
   setPantsImage,
   setResultImage,
+  selectedShirtId,
+  setSelectedShirtId,
+  selectedPantsId,
+  setSelectedPantsId,
 }: InventoryProps) => {
   const [isOverlayOpen, setOverlayOpen] = useState(false);
   
@@ -31,27 +37,27 @@ const Inventory = ({
         isOpen={isOverlayOpen}
         onClose={() => setOverlayOpen(false)}
         setUserImage={setUserImage}
-        setShirtImage={setShirtImage}
-        setPantsImage={setPantsImage}
       />
       <div className="grid grid-cols-[375px_1fr] flex-grow items-center">
         <div className="col-span-1 ml-4 flex items-center justify-center">
           <PlayerCard
             userImage={userImage}
             setUserImage={setUserImage}
-            shirtImage={shirtImage}
-            pantsImage={pantsImage}
             setResultImage={setResultImage}
             onUploadClick={() => setOverlayOpen(true)}
+            selectedShirtId={selectedShirtId}
+            selectedPantsId={selectedPantsId}
           />
         </div>
 
         <div className="col-span-1 flex items-center justify-center">
           <ClothingGrid
-            shirtImage={shirtImage}
             setShirtImage={setShirtImage}
-            pantsImage={pantsImage}
             setPantsImage={setPantsImage}
+            selectedShirtId={selectedShirtId}
+            setSelectedShirtId={setSelectedShirtId}
+            selectedPantsId={selectedPantsId}
+            setSelectedPantsId={setSelectedPantsId}
           />
         </div>
       </div>

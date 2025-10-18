@@ -1,23 +1,24 @@
 import { useState } from "react";
 import { TbWorldUpload } from "react-icons/tb";
 import { SiGooglegemini } from "react-icons/si";
+import api from "../services/api";
 
 interface Props {
   onFileChange: (file: File | null) => void;
   userImage: File | null;
-  shirtImage: File | null;
-  pantsImage: File | null;
   setResultImage: (url: string | null) => void;
   onUploadClick: () => void;
+  selectedShirtId: number | null;
+  selectedPantsId: number | null;
 }
 
 export default function UploadSectionPlayer({
   onFileChange,
   userImage,
-  shirtImage,
-  pantsImage,
   setResultImage,
   onUploadClick,
+  selectedShirtId,
+  selectedPantsId,
 }: Props) {
   const [loading, setLoading] = useState(false);
 
@@ -28,25 +29,31 @@ export default function UploadSectionPlayer({
   }
 
   const handleGenerate = async () => {
-    if (!userImage && !shirtImage && !pantsImage) {
-      alert("Please upload at least one image.");
+    if (!userImage) {
+      alert("Please upload your photo first.");
+      return;
+    }
+    if (!selectedShirtId && !selectedPantsId) {
+      alert("Please select a shirt or pants from the grid.");
       return;
     }
 
     const fd = new FormData();
-    if (userImage) fd.append("user_image", userImage);
-    if (shirtImage) fd.append("shirt_image", shirtImage);
-    if (pantsImage) fd.append("pants_image", pantsImage);
+    fd.append("user_image", userImage);
+    if (selectedShirtId) fd.append("shirt_item_id", String(selectedShirtId));
+    if (selectedPantsId) fd.append("pants_item_id", String(selectedPantsId));
 
     try {
       setLoading(true);
       setResultImage(null);
 
-      const url = "http://127.0.0.1:8000/api/tryon/ai";
-      const res = await fetch(url, { method: "POST", body: fd });
-      const data = await res.json();
+      const res = await api.post("/api/tryon/ai", fd, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      
+      const data = res.data;
 
-      if (res.ok && data.success && data.image_data_url) {
+      if (res.status === 200 && data.success && data.image_data_url) {
         const newImageFile = await dataUrlToFile(data.image_data_url, "generated-look.png");
         onFileChange(newImageFile);
       } else {
@@ -54,7 +61,8 @@ export default function UploadSectionPlayer({
         alert(msg);
       }
     } catch (e: any) {
-      alert(e.message);
+      const errorMsg = e.response?.data?.detail || e.message || "An unknown error occurred.";
+      alert(errorMsg);
     } finally {
       setLoading(false);
     }

@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from db import Base, engine
 from routes.generate import router as generate_router
 from routes.tryon import router as tryon_router
+from routes.clothing import router as clothing_router
 
 import os
 from dotenv import load_dotenv
@@ -32,6 +33,8 @@ app.mount("/uploads", StaticFiles(directory=upload_dir), name="uploads")
 # Include routes
 app.include_router(generate_router)
 app.include_router(tryon_router)
+app.include_router(clothing_router)
+
 
 @app.get("/")
 def root():
