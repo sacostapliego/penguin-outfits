@@ -8,6 +8,7 @@ interface PlayerCardProps {
   onUploadClick: () => void;
   selectedShirtId: number | null;
   selectedPantsId: number | null;
+  selectedBackground: string | null;
 }
 
 const PlayerCard = ({
@@ -17,12 +18,19 @@ const PlayerCard = ({
   onUploadClick,
   selectedShirtId,
   selectedPantsId,
+  selectedBackground,
 }: PlayerCardProps) => {
+
+  // Determine background style based on selectedBackground 
+  const backgroundStyle = selectedBackground
+    ? { backgroundImage: `url(${selectedBackground})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+    : {};
+
   return (
     <div className="
       relative
       bg-playercard
-      h-[600px] w-[425px]
+      h-[600px] w-[450px]
       rounded-2xl 
       p-4 pt-8 flex 
       flex-col 
@@ -44,15 +52,18 @@ const PlayerCard = ({
       </div>
 
       {/* Image Preview Section with fixed height */}
-      <div className="
-      w-full 
-      h-[75%] 
-      bg-player
-      rounded-2xl
-      mb-2
-      flex
-      overflow-hidden
-      ">
+      <div 
+        className={`
+          w-full 
+          h-[75%] 
+          ${!selectedBackground ? 'bg-player' : ''} // Apply bg-player only if no image is selected
+          rounded-2xl
+          mb-2
+          flex
+          overflow-hidden
+        `}
+        style={backgroundStyle} // Apply the background image style
+      >
         <PreviewSection image={userImage} />
       </div>
 

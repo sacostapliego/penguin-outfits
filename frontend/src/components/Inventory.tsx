@@ -1,8 +1,9 @@
 import PlayerCard from "./PlayerCard";
 import ClothingGrid from "./ClothingGrid";
 import UploadOverlay from "./UploadOverlay";
-import { useState } from "react";
-import HistoryGrid from "./HistoryGrid"; // Import the new component
+import { useEffect, useRef, useState } from "react";
+import HistoryGrid from "./HistoryGrid";
+import BackgroundGrid from "./BackgroundGrid";
 
 interface InventoryProps {
   userImage: File | null;
@@ -17,6 +18,8 @@ interface InventoryProps {
   setSelectedShirtId: (id: number | null) => void;
   selectedPantsId: number | null;
   setSelectedPantsId: (id: number | null) => void;
+  selectedBackground: string | null;
+  setSelectedBackground: (url: string | null) => void;
 }
 
 const Inventory = ({
@@ -29,9 +32,32 @@ const Inventory = ({
   setSelectedShirtId,
   selectedPantsId,
   setSelectedPantsId,
+  selectedBackground,
+  setSelectedBackground,
 }: InventoryProps) => {
   const [isOverlayOpen, setOverlayOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'wardrobe' | 'history'>('wardrobe');
+  const [activeTab, setActiveTab] = useState<'wardrobe' | 'model' | 'background'>('wardrobe');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const options = [
+    { value: 'wardrobe', label: 'Clothes' },
+    { value: 'model', label: 'Full-shot' },
+    { value: 'background', label: 'Background' }
+  ];
+
+  // Effect to close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef]);
   
   return (
     <div className="flex flex-col h-full">
@@ -40,7 +66,7 @@ const Inventory = ({
         onClose={() => setOverlayOpen(false)}
         setUserImage={setUserImage}
       />
-      <div className="grid grid-cols-[425px_1fr] flex-grow items-center">
+      <div className="grid grid-cols-[450px_1fr] flex-grow items-center">
         <div className="col-span-1 ml-4 flex items-center justify-center">
           <PlayerCard
             userImage={userImage}
@@ -49,15 +75,12 @@ const Inventory = ({
             onUploadClick={() => setOverlayOpen(true)}
             selectedShirtId={selectedShirtId}
             selectedPantsId={selectedPantsId}
+            selectedBackground={selectedBackground}
           />
         </div>
 
         <div className="col-span-1 flex flex-col h-full justify-center ">
-
-          {/* Main Container: Relative positioning to contain the absolute dropdown */}
           <div className="relative bg-white border-black border-t-4 border-r-4 border-b-4 rounded-tr-2xl rounded-b-2xl p-4 h-[550px] pr-10 w-full max-w-full">
-            
-            {/* Grid Content */}
             <div className="h-full w-full">
               {activeTab === 'wardrobe' ? (
                 <ClothingGrid
@@ -68,21 +91,42 @@ const Inventory = ({
                   selectedPantsId={selectedPantsId}
                   setSelectedPantsId={setSelectedPantsId}
                 />
-              ) : (
+              ) : activeTab === 'model' ? (
                 <HistoryGrid setUserImage={setUserImage} />
+              ) : (
+                <BackgroundGrid 
+                  onSelectBackground={setSelectedBackground}
+                  selectedBackground={selectedBackground}
+                />
               )}
             </div>
 
-            {/* Dropdown Menu "Hanging Sign" */}
-            <div className="absolute -bottom-11 left-1/2 -translate-x-1/2 w-1/2">
-              <select
-                value={activeTab}
-                onChange={(e) => setActiveTab(e.target.value as 'wardrobe' | 'history')}
-                className="w-full p-2 text-center text-lg font-bold rounded-b-2xl bg-white text-black border-l-4 border-r-4 border-b-4 border-black cursor-pointer focus:outline-none"
+            {/* Custom Dropdown Menu "Hanging Sign" */}
+            <div ref={dropdownRef} className="absolute -bottom-12 left-1/2 -translate-x-1/2 w-1/2">
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="w-full p-2 text-center text-lg font-bold bg-white text-black border-l-4 border-r-4 border-b-4 border-black cursor-pointer focus:outline-none rounded-b-2xl"
               >
-                <option value="wardrobe">Clothes</option>
-                <option value="history">History</option>
-              </select>
+                {options.find(opt => opt.value === activeTab)?.label}
+              </button>
+
+              {isDropdownOpen && (
+                <div className="absolute bottom-full w-full bg-white border-l-4 border-r-4 border-t-4 border-black rounded-t-2xl shadow-lg">
+                  {options.map((option) => (
+                    <div
+                      key={option.value}
+                      onClick={() => {
+                        setActiveTab(option.value as 'wardrobe' | 'model' | 'background');
+                        setIsDropdownOpen(false);
+                      }}
+                      // YOU CAN STYLE THESE DIVS FREELY
+                      className="p-2 text-center text-lg font-bold cursor-pointer rounded-2xl hover:bg-gray-300"
+                    >
+                      {option.label}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

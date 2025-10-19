@@ -7,6 +7,7 @@ from datetime import datetime
 from sqlalchemy.orm import Session
 from PIL import Image
 import io
+import rembg
 
 from db import SessionLocal
 from models.models import Upload, ClothingItem
@@ -114,11 +115,22 @@ async def generate_tryon_image_ai(
                 user_bytes = await user_image.read()
                 await user_image.seek(0) # Reset pointer
 
-                image_bytes = generate_virtual_tryon(
+                generated_bytes = generate_virtual_tryon(
                     user_image_bytes=user_bytes,
                     shirt_image_bytes=shirt_bytes,
                     pants_image_bytes=pants_bytes,
                 )
+                
+                # Add background removal step
+                logger.info("Removing background from generated image...")
+                input_image = Image.open(io.BytesIO(generated_bytes))
+                output_image = rembg.remove(input_image)
+                
+                output_buffer = io.BytesIO()
+                output_image.save(output_buffer, format="PNG")
+                image_bytes = output_buffer.getvalue()
+                
+                
             except Exception as e:
                 last_error = str(e)
                 logger.warning(f"Gemini failed: {last_error}")

@@ -76,7 +76,6 @@ const ClothingGrid = ({
   const placeholderCount = Math.max(0, minCells - items.length);
 
   return (
-    // The outer container has been removed. This is now just the grid itself.
     <div className="grid grid-cols-3 grid-rows-4 gap-3 w-full h-full overflow-y-auto">
       {items.map((item) => (
         <div
@@ -84,7 +83,7 @@ const ClothingGrid = ({
           onClick={() => handleSelect(item)}
           className={`flex flex-col items-stretch justify-between bg-white border-2 rounded-lg overflow-hidden min-w-0 aspect-square cursor-pointer
             ${(item.item_type === 'shirt' && selectedShirtId === item.id) || (item.item_type === 'pants' && selectedPantsId === item.id) 
-              ? 'border-gray-300 border-4' // Use a visible color for selection
+              ? 'border-gray-300 border-4'
               : 'border-gray-300'
             }
           `}

@@ -8,6 +8,7 @@ function App() {
   const [resultImage, setResultImage] = useState<string | null>(null);
   const [selectedShirtId, setSelectedShirtId] = useState<number | null>(null);
   const [selectedPantsId, setSelectedPantsId] = useState<number | null>(null);
+  const [selectedBackground, setSelectedBackground] = useState<string | null>(null);
 
   return (
     <div className="h-screen w-screen bg-blue-500 flex justify-center items-center font-sans">
@@ -31,6 +32,8 @@ function App() {
             setSelectedShirtId={setSelectedShirtId}
             selectedPantsId={selectedPantsId}
             setSelectedPantsId={setSelectedPantsId}
+            selectedBackground={selectedBackground}
+            setSelectedBackground={setSelectedBackground}
           />
         </div>
       </div>
