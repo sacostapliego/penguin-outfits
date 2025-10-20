@@ -3,8 +3,6 @@ from dotenv import load_dotenv
 from PIL import Image
 import io
 from typing import Optional
-
-# google-genai is already imported in your project
 from google import genai
 
 load_dotenv()
