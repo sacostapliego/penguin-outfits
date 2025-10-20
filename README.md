@@ -29,14 +29,23 @@ HF_API_KEY = [HuggingFace Access Key, needs to read permissions]
 GEMINI_API_KEY = [Google Gemini API Key, needs to have billing to use 2.5 flash]
 ```
 
-#### Run Simultaneously / Two Terminals
+### Create a Database in PostgreSQL
+```bash
+psql -U [username]
+[password if required]
+CREATE DATABASE [your database name];
+```
+Get the connection string, and place that in the .env file in the DATABASE_URL
 
+### Install All Requirements for the Backend
 To run install requirements
 ```bash
 cd backend
 source venv/bin/activate
 pip install -r requirements.txt
 ```
+
+#### Run Simultaneously / Two Terminals
 
 To run the backend
 ```bash
@@ -51,4 +60,5 @@ cd frontend
 npm install
 npm run dev
 ```
+
 
