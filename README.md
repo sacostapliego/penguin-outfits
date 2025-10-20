@@ -2,7 +2,7 @@
 
 A side-project that uses Google's Image Generation with Gemini (aka Nano Banana)
 
-This document shows you how to run it
+This document shows you how to run it, as there is no online deployment, and is meant to only run locally
 
 ## Prerequisites
 - PostgreSQL
@@ -51,3 +51,4 @@ cd frontend
 npm install
 npm run dev
 ```
+
