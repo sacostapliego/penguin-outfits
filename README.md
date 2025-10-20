@@ -31,8 +31,6 @@ GEMINI_API_KEY = [Google Gemini API Key, needs to have billing to use 2.5 flash]
 
 ### Create a Database in PostgreSQL
 ```bash
-psql -U [username]
-[password if required]
 CREATE DATABASE [your database name];
 ```
 Get the connection string, and place that in the .env file in the DATABASE_URL
@@ -60,5 +58,6 @@ cd frontend
 npm install
 npm run dev
 ```
+
 
 
