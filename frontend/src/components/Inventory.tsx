@@ -42,8 +42,8 @@ const Inventory = ({
 
   const options = [
     { value: 'wardrobe', label: 'Clothes' },
-    { value: 'model', label: 'Full-shot' },
-    { value: 'background', label: 'Background' }
+    { value: 'background', label: 'Background' },
+    { value: 'model', label: 'Saved' },
   ];
 
   // Effect to close dropdown when clicking outside
