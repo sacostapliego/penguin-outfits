@@ -49,7 +49,7 @@ To run the backend
 ```bash
 cd backend
 source venv/bin/activate
-uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+fastapi dev
 ```
 
 To run the frontend
@@ -58,6 +58,7 @@ cd frontend
 npm install
 npm run dev
 ```
+
 
 
 
